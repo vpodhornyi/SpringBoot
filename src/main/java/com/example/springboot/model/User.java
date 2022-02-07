@@ -2,27 +2,27 @@ package com.example.springboot.model;
 
 import lombok.Data;
 
-import java.util.Objects;
+import javax.persistence.Entity;
+import javax.persistence.Id;
+import javax.persistence.Table;
 
 @Data
+@Entity
+@Table(name="TBL_EMPLOYEES")
 public class User {
-//  final private double id;
-//  final private String first_name;
-//  final private String last_name;
-//  final private String email;
-  final private String login;
-  final private String password;
+  @Id
+  private Long id;
+  private String first_name;
+  private String last_name;
+  private String email;
 
-  @Override
-  public boolean equals(Object o) {
-    if (this == o) return true;
-    if (o == null || getClass() != o.getClass()) return false;
-    User user = (User) o;
-    return Objects.equals(login, user.login);
+  public User(Long id, String first_name, String last_name, String email) {
+    this.id = id;
+    this.first_name = first_name;
+    this.last_name = last_name;
+    this.email = email;
   }
 
-  @Override
-  public int hashCode() {
-    return Objects.hash(login);
+  public User() {
   }
 }

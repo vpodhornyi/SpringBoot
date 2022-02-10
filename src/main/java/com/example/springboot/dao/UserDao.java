@@ -1,9 +1,18 @@
 package com.example.springboot.dao;
 
-import org.springframework.jdbc.core.JdbcTemplate;
+import com.example.springboot.model.User;
 
-public class UserDao {
-  private JdbcTemplate jdbcTemplate;
+import java.util.List;
 
-  
+public interface UserDao {
+
+  public List<User> findAll();
+
+  public User findById(Long id);
+
+  public void create(User user);
+
+  public void update(User user, Long id);
+
+  public void delete(Long id);
 }

@@ -1,54 +1,45 @@
 package com.example.springboot.controller;
 
 import com.example.springboot.model.User;
+import com.example.springboot.service.JdbcUserService;
+import com.example.springboot.service.TemplateUserService;
 import org.springframework.ui.Model;
-import org.springframework.stereotype.Controller;
-import org.springframework.web.bind.annotation.GetMapping;
-import org.springframework.web.bind.annotation.PostMapping;
-import org.springframework.web.bind.annotation.RequestParam;
+import org.springframework.web.bind.annotation.*;
 
-import java.util.ArrayList;
 import java.util.List;
 
-@Controller
+@RestController
 public class UserController {
-  List<User> users = new ArrayList<User>(List.of(new User("test", "test"), new User("test1", "test1")));
+ private TemplateUserService templateUserService;
+ private JdbcUserService jdbcUserService;
+
+  public UserController(TemplateUserService templateUserService, JdbcUserService jdbcUserService) {
+    this.templateUserService = templateUserService;
+    this.jdbcUserService = jdbcUserService;
+  }
 
   @GetMapping("/users")
-  public String getUsers(Model model) {
-    model.addAttribute("users", users);
-    return "users";
+  public List<User> getUsers() {
+    return templateUserService.getAll();
   }
 
-  @GetMapping("/")
-  public String getLogin(Model model) {
-    return "login";
+  @GetMapping("/users/{id}")
+  public User create(@PathVariable("id") String id) {
+    return templateUserService.findById(Long.parseLong(id));
   }
 
-  @PostMapping("/login")
-  public String postLogin(
-      @RequestParam(name = "login") String login,
-      @RequestParam(name = "password") String password,
-      Model model
-      ) {
-    boolean contains = users.contains(new User(login, password));
-    model.addAttribute("login", login);
-    model.addAttribute("password", password);
-    model.addAttribute("contains", contains);
-    return "users";
+  @PostMapping("/users")
+  public void postUsers(@RequestBody User user) {
+    templateUserService.create(user);
   }
 
-  @PostMapping("/create")
-  public String create(
-      @RequestParam(name = "login") String login,
-      @RequestParam(name = "password") String password,
-      Model model
-  ) {
-    System.out.println(login);
-    System.out.println(password);
-    User newUser = new User(login, password);
-    users.add(newUser);
+  @PutMapping("/users/{id}")
+  public void putUsers(@PathVariable("id") String id, @RequestBody User user) {
+    templateUserService.update(user, Long.parseLong(id));
+  }
 
-    return "alert";
+  @DeleteMapping("/users/{id}")
+  public void putUsers(@PathVariable("id") String id) {
+    templateUserService.delete(Long.parseLong(id));
   }
 }

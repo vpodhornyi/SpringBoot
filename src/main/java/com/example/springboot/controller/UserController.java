@@ -19,7 +19,7 @@ public class UserController {
   }
 
   @GetMapping("/users")
-  public List<User> getUsers(Model model) {
+  public List<User> getUsers() {
     return templateUserService.getAll();
   }
 
@@ -36,5 +36,10 @@ public class UserController {
   @PutMapping("/users/{id}")
   public void putUsers(@PathVariable("id") String id, @RequestBody User user) {
     templateUserService.update(user, Long.parseLong(id));
+  }
+
+  @DeleteMapping("/users/{id}")
+  public void putUsers(@PathVariable("id") String id) {
+    templateUserService.delete(Long.parseLong(id));
   }
 }

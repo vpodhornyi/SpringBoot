@@ -27,13 +27,13 @@ public class JdbcUserDao implements UserDao{
     try {
       connection = dataSource.getConnection();
       Statement statement = connection.createStatement();
-      ResultSet resultSet = statement.executeQuery("SELECT * FROM TBL_EMPLOYEES");
+      ResultSet resultSet = statement.executeQuery("SELECT * FROM USERS");
       while(resultSet.next()) {
         long id = resultSet.getLong("id");
         String first_name = resultSet.getString(2);
         String last_name = resultSet.getString("last_name");
         String email = resultSet.getString("email");
-        users.add(new User(id, first_name, last_name, email));
+        users.add(new User(id, first_name, last_name, email, null));
       }
     } catch (SQLException e) {
       e.printStackTrace();
@@ -65,5 +65,8 @@ public class JdbcUserDao implements UserDao{
 
   }
 
+  @Override
+  public void delete(Long id) {
 
+  }
 }

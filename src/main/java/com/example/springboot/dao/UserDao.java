@@ -14,4 +14,5 @@ public interface UserDao {
 
   public void update(User user, Long id);
 
+  public void delete(Long id);
 }

@@ -33,4 +33,9 @@ public class JdbcUserService implements UserService{
   public void update(User user, Long id) {
 
   }
+
+  @Override
+  public void delete(Long id) {
+
+  }
 }
